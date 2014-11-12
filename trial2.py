@@ -28,6 +28,11 @@ def main():
     print model.predict_proba([0,3])
     
 
+    content = open(inputFilename).read().splitlines()[75291:80544] #start after the first line
+    initial_values = np.zeros(shape = (len(content), 7)) #(rows, cols)
+    final_output = np.zeros(shape = (3, 1000))
+    final_output[row][col] = 1
+
 #def ReadFileInAsMatrix():
 
 
