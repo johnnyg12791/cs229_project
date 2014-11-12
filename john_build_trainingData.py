@@ -11,18 +11,18 @@ from sklearn.cross_validation import cross_val_score
 
 
 global team_name_to_id
-global games_matrix
+#global games_matrix
 
 def main():
     BuildTeamNameToIdMap('data/kaggle/teams.csv')
     #1 = id, 18 = FG%, 24 = FT%
     basic_stats_matrix = ReadBasicStatsToMatrix('data/sports-reference/basic_stats.csv', [1, 18, 24])
-    BuildGamesMatrix('data/kaggle/regular_season_results.csv', 75290, 80543)
+    regular_season_games = BuildGamesMatrix('data/kaggle/regular_season_results.csv', 75290, 80543)
     #print games_matrix
 
     #So now I have the 3 different data sources into numpy matricies
     #combine the games matrix and stats matrix
-    training_data = buildTrainingDataMatrix(basic_stats_matrix)
+    training_data = buildTrainingDataMatrix(basic_stats_matrix, regular_season_games)
     (X,y) = (training_data[:,[0,1,2,3]], training_data[:,4])
     print X
     print y
@@ -33,6 +33,30 @@ def main():
     print model.predict_proba([.23, .33, .78, .83]) #look, we think team 1 will lose
     print model.predict_proba([.55, .76, .34, .52]) #we think team 1 will win
 
+    tournament_games = BuildGamesMatrix('data/kaggle/tourney_results.csv', 1024, 1090)
+    test_data = buildTrainingDataMatrix(basic_stats_matrix, tournament_games)
+    #print len(test_data) only get 32 of the games due to naming....
+    predictions = MakePredictions(model, test_data[:,[0,1,2,3]])
+    print predictions
+    print test_data[:,4]
+    correct_predictions = 0
+    for index, prediction in enumerate(predictions):
+        if(prediction == test_data[:,4][index]):
+            correct_predictions += 1.0
+    accuracy = correct_predictions / float(len(predictions))
+
+    print accuracy #exactly 50% accuracy!!!
+
+def MakePredictions(model, test_data):
+    predictions = []
+    for data in test_data:
+        predict = model.predict_proba(data)
+        if(predict[0][0] > .5):
+            predictions.append(0)
+        else:
+            predictions.append(1)
+
+    return predictions
 
 
 
@@ -41,7 +65,7 @@ def main():
 I want to create one matrix that uses all three of those to build a matrix
 [team1_fg%, team2_fg%, team1_fg%, team2_fg%, team1_win?(0/1)]
 '''
-def buildTrainingDataMatrix(stats_matrix):
+def buildTrainingDataMatrix(stats_matrix, games_matrix):
     training_data_matrix = np.zeros(shape = (len(games_matrix), 5))
     for game_index, game in enumerate(games_matrix):
         team1 = game[0]
@@ -77,7 +101,7 @@ Takes the regular season games (from kaggle), and builds a numpy matrix of the f
 '''
 def BuildGamesMatrix(filename, start_index, end_index):
     content = open(filename).read().splitlines()[start_index:end_index]
-    global games_matrix
+    #global games_matrix
     games_matrix = np.zeros(shape = (len(content), 5)) #(rows, cols)
 
     for row_index, row in enumerate(content):
@@ -95,7 +119,7 @@ def BuildGamesMatrix(filename, start_index, end_index):
         #season, daynum
         games_matrix[row_index][3] = ord(line[0]) #converts the 'season' letter to a number
         games_matrix[row_index][4] = line[1]
-
+    return games_matrix
 
 
 
