@@ -74,10 +74,6 @@ def buildTrainingDataMatrix(stats_matrix, games_matrix):
 
         for stats_index, team_id in enumerate(stats_matrix[:,0]):
             if(team_id == team1):
-                #print team_id
-                #print game
-                #print stats_matrix[stats_index]
-                #raw_input("")
                 training_data_matrix[game_index][0] = stats_matrix[stats_index][1]
                 training_data_matrix[game_index][1] = stats_matrix[stats_index][2]
             if(team_id == team2):
@@ -102,23 +98,26 @@ Takes the regular season games (from kaggle), and builds a numpy matrix of the f
 def BuildGamesMatrix(filename, start_index, end_index):
     content = open(filename).read().splitlines()[start_index:end_index]
     #global games_matrix
-    games_matrix = np.zeros(shape = (len(content), 5)) #(rows, cols)
+    games_matrix = np.zeros(shape = (len(content)*2, 5)) #(rows, cols)
 
     for row_index, row in enumerate(content):
         line = row.split(",")
 
-        #swap every other game as a win/loss
-        if(row_index % 2 == 0):
-            games_matrix[row_index][0] = line[2]
-            games_matrix[row_index][1] = line[4]
-            games_matrix[row_index][2] = 1
-        else:
-            games_matrix[row_index][0] = line[4]
-            games_matrix[row_index][1] = line[2]
-            games_matrix[row_index][2] = 0
-        #season, daynum
-        games_matrix[row_index][3] = ord(line[0]) #converts the 'season' letter to a number
-        games_matrix[row_index][4] = line[1]
+        #Count every game twice, as a win for team 1 and a loss for team 2
+        games_matrix[row_index*2][0] = line[2]
+        games_matrix[row_index*2][1] = line[4]
+        games_matrix[row_index*2][2] = 1
+        games_matrix[row_index*2][3] = ord(line[0]) - ord('A') #converts the 'season' letter to a number
+        games_matrix[row_index*2][4] = line[1]
+        
+        #Loss for team 2
+        games_matrix[row_index*2+1][0] = line[4]
+        games_matrix[row_index*2+1][1] = line[2]
+        games_matrix[row_index*2+1][2] = 0
+        games_matrix[row_index*2+1][3] = ord(line[0]) - ord('A') #converts the 'season' letter to a number
+        games_matrix[row_index*2+1][4] = line[1]
+
+
     return games_matrix
 
 
@@ -155,6 +154,7 @@ def ReadBasicStatsToMatrix(filename, columns):
                 if(team_name in team_name_to_id):
                     matrix[row_index][col_index] = team_name_to_id[team_name]
                 else:
+                    print team_name
                     matrix[row_index][col_index] = -1 #this is what we put if the name doesn't match for now
             else:
                 matrix[row_index][col_index] = float(row_as_list[col])

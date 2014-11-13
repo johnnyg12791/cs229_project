@@ -6,6 +6,7 @@ import numpy as np
 import matplotlib
 from patsy import dmatrices
 from sklearn.linear_model import LogisticRegression
+from sklearn import svm
 from sklearn.cross_validation import train_test_split
 from sklearn import metrics
 from sklearn.cross_validation import cross_val_score
@@ -32,23 +33,46 @@ def main():
     model = LogisticRegression()
     model = model.fit(X, y)
 
-    #print model.predict_proba([.23, .33, .78, .83]) #look, we think team 1 will lose
+    model2 = svm.SVC()
+    model2 = model2.fit(X,y)
+
+    print model.predict_proba([1.75, .12])
+    print model2.predict([1.75, .12]) #look, we think team 1 will lose
     #print model.predict_proba([.55, .76, .34, .52]) #we think team 1 will win
 
     tournament_games = BuildGamesMatrix('data/kaggle/tourney_results.csv', 1024, 1090)
     test_data = buildTrainingDataMatrix(basic_stats_matrix, tournament_games)
     #print len(test_data) only get 32 of the games due to naming....
     predictions = MakePredictions(model, test_data[:,[0,1]]) #
-    print predictions
-    print test_data[:,2] #
+    accuracy = GetAccuracy(predictions, test_data)
+    print "LogisticRegression Accuracy: ", accuracy
+
+    predictions2 = MakePredictionsSVM(model2, test_data[:,[0,1]])
+    accuracy2 = GetAccuracy(predictions2, test_data)
+    print "SVM Accuracy: ", accuracy2
+
+
+#Given a set of predictions (binary classification) and data, computes accuracy
+def GetAccuracy(predictions, test_data):
     correct_predictions = 0
     for index, prediction in enumerate(predictions):
         if(prediction == test_data[:,2][index]): #
             correct_predictions += 1.0
-    accuracy = correct_predictions / float(len(predictions))
+    return correct_predictions / float(len(predictions))
 
-    print accuracy #predicts with .65625 accuracy!!!
+#Predictions for an SVM
+def MakePredictionsSVM(model, test_data):
+    predictions = []
+    for data in test_data:
+        predict = model.predict(data)
+        if(predict[0] == 0):
+            predictions.append(0)
+        else:
+            predictions.append(1)
 
+    return predictions
+
+#Predictions using a classification
 def MakePredictions(model, test_data):
     predictions = []
     for data in test_data:
