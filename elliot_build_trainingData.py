@@ -7,6 +7,7 @@ import matplotlib
 from patsy import dmatrices
 from sklearn.linear_model import LogisticRegression
 from sklearn import svm
+from sklearn.lda import LDA
 from sklearn.cross_validation import train_test_split
 from sklearn import metrics
 from sklearn.cross_validation import cross_val_score
@@ -36,6 +37,9 @@ def main():
     model2 = svm.SVC()
     model2 = model2.fit(X,y)
 
+    model3 = LDA()
+    model3 = model3.fit(X,y)
+
     print model.predict_proba([1.75, .12])
     print model2.predict([1.75, .12]) #look, we think team 1 will lose
     #print model.predict_proba([.55, .76, .34, .52]) #we think team 1 will win
@@ -50,6 +54,10 @@ def main():
     predictions2 = MakePredictionsSVM(model2, test_data[:,[0,1]])
     accuracy2 = GetAccuracy(predictions2, test_data)
     print "SVM Accuracy: ", accuracy2
+
+    predictions3 = MakePredictionsSVM(model3, test_data[:,[0,1]])
+    accuracy3 = GetAccuracy(predictions3, test_data)
+    print "LDA Accuracy: ", accuracy3
 
 
 #Given a set of predictions (binary classification) and data, computes accuracy
