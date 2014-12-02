@@ -1,5 +1,5 @@
 #Build training data
-
+#http://apps.washingtonpost.com/sports/apps/live-updating-mens-ncaa-basketball-bracket/search/?pri_school_id=&pri_conference=&pri_coach=&pri_seed_from=3&pri_seed_to=2&pri_power_conference=&pri_bid_type=&opp_school_id=&opp_conference=&opp_coach=&opp_seed_from=3&opp_seed_to=16&opp_power_conference=&opp_bid_type=&game_type=7&from=1985&to=2014&submit=
 #Our first attempt at real life ML...
 import numpy as np
 import matplotlib
