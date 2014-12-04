@@ -97,19 +97,19 @@ def MakeResultsDictionary(regular_season_games, tournament_games, factorCombo, n
 
     # Make predictions and get accuracies 
     # LogisticTest, SVMTest, LogisticTrain, SVMTrain
-    prediction1 = MakePredictions(model, test_data[:,range(2*numFac)]) 
+    '''prediction1 = MakePredictions(model, test_data[:,range(2*numFac)]) 
     accuracy1 = GetAccuracy(prediction1, test_data, numFac)
     
     prediction2 = MakePredictionsSVM(model2, test_data[:,range(2*numFac)])
-    accuracy2 = GetAccuracy(prediction2, test_data, numFac)
+    accuracy2 = GetAccuracy(prediction2, test_data, numFac)'''
 
     prediction3 = MakePredictions(model, training_data[:,range(2*numFac)]) 
     accuracy3 = GetAccuracy(prediction3, training_data, numFac)
     
-    prediction4 = MakePredictionsSVM(model2, training_data[:,range(2*numFac)])
-    accuracy4 = GetAccuracy(prediction4, training_data, numFac)
+    '''prediction4 = MakePredictionsSVM(model2, training_data[:,range(2*numFac)])
+    accuracy4 = GetAccuracy(prediction4, training_data, numFac)'''
 
-    factors_to_results[tuple(factorCombo)] = [accuracy1, accuracy2, accuracy3, accuracy4]
+    factors_to_results[tuple(factorCombo)] = accuracy3
     print factors_to_results[tuple(factorCombo)]
 
 
