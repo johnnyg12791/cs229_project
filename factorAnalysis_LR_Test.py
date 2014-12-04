@@ -92,8 +92,8 @@ def MakeResultsDictionary(regular_season_games, tournament_games, factorCombo, n
     model = LogisticRegression()
     model = model.fit(X, y)
 
-    model2 = svm.SVC()
-    model2 = model2.fit(X,y)
+    #model2 = svm.SVC()
+    #model2 = model2.fit(X,y)
 
     # Make predictions and get accuracies 
     # LogisticTest, SVMTest, LogisticTrain, SVMTrain

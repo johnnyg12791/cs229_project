@@ -89,8 +89,8 @@ def MakeResultsDictionary(regular_season_games, tournament_games, factorCombo, n
     test_data = buildTrainingDataMatrix(basic_stats_matrix, tournament_games, numFac)
     (X,y) = (training_data[:,range(2*numFac)], training_data[:,2*numFac]) 
 
-    model = LogisticRegression()
-    model = model.fit(X, y)
+    #model = LogisticRegression()
+    #model = model.fit(X, y)
 
     model2 = svm.SVC()
     model2 = model2.fit(X,y)
