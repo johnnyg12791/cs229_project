@@ -1,5 +1,5 @@
 #Build training data
-
+#http://apps.washingtonpost.com/sports/apps/live-updating-mens-ncaa-basketball-bracket/search/?pri_school_id=&pri_conference=&pri_coach=&pri_seed_from=3&pri_seed_to=2&pri_power_conference=&pri_bid_type=&opp_school_id=&opp_conference=&opp_coach=&opp_seed_from=3&opp_seed_to=16&opp_power_conference=&opp_bid_type=&game_type=7&from=1985&to=2014&submit=
 #Our first attempt at real life ML...
 import numpy as np
 import matplotlib
@@ -24,28 +24,28 @@ def main():
     #combine the games matrix and stats matrix
     training_data = buildTrainingDataMatrix(basic_stats_matrix, regular_season_games)
     (X,y) = (training_data[:,[0,1,2,3]], training_data[:,4])
-    print X
-    print y
+    #print X
+    #print y
 
     model = LogisticRegression()
     model = model.fit(X, y)
 
-    print model.predict_proba([.23, .33, .78, .83]) #look, we think team 1 will lose
-    print model.predict_proba([.55, .76, .34, .52]) #we think team 1 will win
+    #print model.predict_proba([.23, .33, .78, .83]) #look, we think team 1 will lose
+    #print model.predict_proba([.55, .76, .34, .52]) #we think team 1 will win
 
     tournament_games = BuildGamesMatrix('data/kaggle/tourney_results.csv', 1024, 1090)
     test_data = buildTrainingDataMatrix(basic_stats_matrix, tournament_games)
     #print len(test_data) only get 32 of the games due to naming....
     predictions = MakePredictions(model, test_data[:,[0,1,2,3]])
-    print predictions
-    print test_data[:,4]
+    #print predictions
+    #print test_data[:,4]
     correct_predictions = 0
     for index, prediction in enumerate(predictions):
         if(prediction == test_data[:,4][index]):
             correct_predictions += 1.0
     accuracy = correct_predictions / float(len(predictions))
 
-    print accuracy #exactly 50% accuracy!!!
+    #print accuracy #exactly 50% accuracy!!!
 
 def MakePredictions(model, test_data):
     predictions = []
@@ -143,6 +143,8 @@ matrix looks like:
 '''
 def ReadBasicStatsToMatrix(filename, columns):
     #print team_name_to_id
+    missed_teams = 0
+
     content = open(filename).read().splitlines()[2:]
     matrix = np.zeros(shape = (len(content), len(columns))) #(rows, cols)
     for row_index, row in enumerate(content):
@@ -154,12 +156,15 @@ def ReadBasicStatsToMatrix(filename, columns):
                 if(team_name in team_name_to_id):
                     matrix[row_index][col_index] = team_name_to_id[team_name]
                 else:
-                    print team_name
+                    print team_name #these are the teams that we miss
+                    '''update above'''
+                    missed_teams += 1
                     matrix[row_index][col_index] = -1 #this is what we put if the name doesn't match for now
             else:
                 matrix[row_index][col_index] = float(row_as_list[col])
 
     #might want to remove all the teams with a -1 index, but leave that for later if necessary...?
+    print "we missed: ", missed_teams
     return matrix
 
 

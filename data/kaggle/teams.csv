@@ -5,29 +5,42 @@ id,name
 504,Alabama
 505,Alabama A&M
 506,Alabama St
+506,Alabama State
 507,Albany NY
+507,Albany (NY)
 508,Alcorn St
+508,Alcorn State
 509,American Univ
+509,American
 510,Appalachian St
+510,Appalachian State
 511,Arizona
 512,Arizona St
+512,Arizona State
 513,Ark Little Rock
 514,Ark Pine Bluff
+513,Arkansas-Little Rock
+514,Arkansas-Pine Bluff
 515,Arkansas
 516,Arkansas St
+516,Arkansas State
 517,Army
 518,Auburn
 519,Austin Peay
 520,Ball St
+520,Ball State
 521,Baylor
 522,Belmont
 523,Bethune-Cookman
 524,Binghamton
 525,Birmingham So
 526,Boise St
+526,Boise State
 527,Boston College
 528,Boston Univ
+528,Boston University
 529,Bowling Green
+529,Bowling Green State
 530,Bradley
 531,Brown
 532,Bryant
@@ -35,44 +48,62 @@ id,name
 534,Buffalo
 535,Butler
 536,BYU
+536,Brigham Young
 537,C Michigan
+537,Central Michigan
 538,Cal Poly SLO
+538,Cal Poly
 539,California
 540,Campbell
 541,Canisius
 542,Cent Arkansas
+542,Central Arkansas
 543,Centenary
 544,Central Conn
+544,Central Connecticut State
 545,Charleston So
+545,Charleston Southern
 546,Charlotte
 547,Chattanooga
 548,Chicago St
+548,Chicago State
 549,Cincinnati
 550,Citadel
 551,Clemson
 552,Cleveland St
+552,Cleveland State
 553,Coastal Car
+553,Coastal Carolina
 554,Col Charleston
+554,College of Charleston
 555,Colgate
 556,Colorado
 557,Colorado St
+557,Colorado State
 558,Columbia
 559,Connecticut
 560,Coppin St
+560,Coppin State
 561,Cornell
 562,Creighton
 563,CS Bakersfield
 564,CS Fullerton
 565,CS Northridge
+563,Cal State Bakersfield
+564,Cal State Fullerton
+565,Cal State Northridge
 566,CS Sacramento
+566,Sacramento State
 567,Dartmouth
 568,Davidson
 569,Dayton
 570,Delaware
 571,Delaware St
+571,Delaware State
 572,Denver
 573,DePaul
 574,Detroit
+574,Detroit Mercy
 575,Drake
 576,Drexel
 577,Duke
@@ -81,29 +112,46 @@ id,name
 580,E Kentucky
 581,E Michigan
 582,E Washington
+579,Eastern Illinois
+580,Eastern Kentucky
+581,Eastern Michigan
+582,Eastern Washington
 583,East Carolina
 584,Edwardsville
+584,SIU-Edwardsville
+584,SIU Edwardsville
 585,Elon
 586,ETSU
+586,East Tennessee State
 587,Evansville
 588,F Dickinson
+588,Fairleigh Dickinson
 589,Fairfield
 590,FL Atlantic
 591,FL Gulf Coast
+590,Florida Atlantic
+591,Florida Gulf Coast
 592,Florida
 593,Florida A&M
 594,Florida Intl
+594,Florida International
 595,Florida St
+595,Florida State
 596,Fordham
 597,Fresno St
+597,Fresno State
 598,Furman
 599,G Washington
+599,George Washington
 600,Ga Southern
+600,Georgia Southern
 601,Gardner Webb
+601,Gardner-Webb
 602,George Mason
 603,Georgetown
 604,Georgia
 605,Georgia St
+605,Georgia State
 606,Georgia Tech
 607,Gonzaga
 608,Grambling
@@ -117,27 +165,38 @@ id,name
 616,Holy Cross
 617,Houston
 618,Houston Bap
+618,Houston Baptist
 619,Howard
 620,Idaho
 621,Idaho St
+621,Idaho State
 622,IL Chicago
+622,Illinois-Chicago
 623,Illinois
 624,Illinois St
+624,Illinois State
 625,Indiana
 626,Indiana St
+626,Indiana State
 627,Iona
 628,Iowa
 629,Iowa St
+629,Iowa State
 630,IPFW
 631,IUPUI
 632,Jackson St
+632,Jackson State
 633,Jacksonville
 634,Jacksonville St
+634,Jacksonville State
 635,James Madison
 636,Kansas
 637,Kansas St
+637,Kansas State
 638,Kennesaw
+638,Kennesaw State
 639,Kent
+639,Kent State
 640,Kentucky
 641,La Salle
 642,Lafayette
@@ -146,14 +205,20 @@ id,name
 645,Liberty
 646,Lipscomb
 647,Long Beach St
+647,Long Beach State
 648,Long Island
+648,Long Island University
 649,Longwood
 650,Louisiana Tech
 651,Louisville
 652,Loy Marymount
+652,Loyola Marymount
 653,Loyola MD
+653,Loyola (MD)
 654,Loyola-Chicago
+654,Loyola (IL)
 655,LSU
+655,Louisiana State
 656,MA Lowell
 657,Maine
 658,Manhattan
@@ -163,37 +228,60 @@ id,name
 662,Maryland
 663,Massachusetts
 664,McNeese St
+664,McNeese State
 665,MD E Shore
+665,Maryland-Eastern Shore
 666,Memphis
 667,Mercer
 668,Miami FL
 669,Miami OH
+668,Miami (FL)
+669,Miami (OH)
 670,Michigan
 671,Michigan St
 672,Middle Tenn St
+671,Michigan State
+672,Middle Tenn State
+672,Middle Tennessee
 673,Minnesota
 674,Mississippi
 675,Mississippi St
+675,Mississippi State
 676,Missouri
 677,Missouri KC
+677,Missouri-Kansas City
 678,Missouri St
+678,Missouri State
 679,Monmouth NJ
+679,Monmouth
 680,Montana
 681,Montana St
 682,Morehead St
 683,Morgan St
+681,Montana State
+682,Morehead State
+683,Morgan State
 684,Morris Brown
 685,MS Valley St
+685,Mississippi Valley State
 686,Mt St Mary's
+686,Mount St. Mary's
 687,Murray St
+687,Murray State
 688,N Colorado
+688,Northern Colorado
 689,N Dakota St
+689,North Dakota State
 690,N Illinois
+690,Northern Illinois
 691,N Kentucky
 692,Navy
 693,NC A&T
+693,North Carolina A&T
 694,NC Central
+694,North Carolina Central
 695,NC State
+695,North Carolina State
 696,NE Illinois
 697,NE Omaha
 698,Nebraska
@@ -201,11 +289,14 @@ id,name
 700,New Hampshire
 701,New Mexico
 702,New Mexico St
+702,New Mexico State
 703,New Orleans
 704,Niagara
 705,Nicholls St
+705,Nicholls State
 706,NJIT
 707,Norfolk St
+707,Norfolk State
 708,North Carolina
 709,North Dakota
 710,North Florida
@@ -215,23 +306,30 @@ id,name
 714,Northern Iowa
 715,Northwestern
 716,Northwestern LA
+716,Northwestern State
 717,Notre Dame
 718,Oakland
 719,Ohio
 720,Ohio St
+720,Ohio State
 721,Oklahoma
 722,Oklahoma St
+722,Oklahoma State
 723,Old Dominion
 724,Oral Roberts
 725,Oregon
 726,Oregon St
+726,Oregon State
 727,Pacific
 728,Penn
+728,Pennsylvania
 729,Penn St
+729,Penn State
 730,Pepperdine
 731,Pittsburgh
 732,Portland
 733,Portland St
+733,Portland State
 734,Prairie View
 735,Presbyterian
 736,Princeton
@@ -248,82 +346,131 @@ id,name
 747,S Carolina St
 748,S Dakota St
 749,S Illinois
+747,South Carolina State
+748,South Dakota State
+749,Southern Illinois
 750,Sacred Heart
 751,Sam Houston St
+751,Sam Houston State
 752,Samford
 753,San Diego
 754,San Diego St
+754,San Diego State
 755,San Francisco
 756,San Jose St
+756,San Jose State
 757,Santa Barbara
+757,California-Santa Barbara
 758,Santa Clara
 759,Savannah St
+759,Savannah State
 760,SC Upstate
+760,South Carolina Upstate
 761,SE Louisiana
+761,Southeastern Louisiana
 762,SE Missouri St
+762,Southeast Missouri State
 763,Seattle
 764,Seton Hall
 765,SF Austin
+765,Stephen F. Austin
 766,Siena
 767,SMU
+767,Southern Methodist
 768,South Alabama
 769,South Carolina
 770,South Dakota
 771,South Florida
 772,Southern Miss
+772,Southern Mississippi
 773,Southern Univ
+773,Southern
 774,Southern Utah
 775,St Bonaventure
+775,St. Bonaventure
 776,St Francis NY
 777,St Francis PA
+777,Saint Francis (PA)
 778,St John's
+778,St. John's (NY)
+776,St. Francis (NY)
 779,St Joseph's PA
+779,Saint Joseph's
 780,St Louis
+780,Saint Louis
 781,St Mary's CA
+781,Saint Mary's (CA)
 782,St Peter's
+782,Saint Peter's
 783,Stanford
 784,Stetson
 785,Stony Brook
 786,Syracuse
 787,TAM C. Christi
+787,Texas A&M-Corpus Christi
 788,TCU
+788,Texas Christian
 789,Temple
 790,Tennessee
 791,Tennessee St
+791,Tennessee State
 792,Tennessee Tech
 793,Texas
 794,Texas A&M
 795,Texas St
+795,Texas State
 796,Texas Tech
 797,TN Martin
+797,Tennessee Martin
+797,Tennessee-Martin
 798,Toledo
 799,Towson
 800,Troy
 801,Tulane
 802,Tulsa
 803,TX Pan American
+803,Texas-Pan American
 804,TX Southern
+804,Texas Southern
 805,UAB
+805,Alabama-Birmingham
 806,UC Davis
 807,UC Irvine
 808,UC Riverside
+806,California-Davis
+807,California-Irvine
+808,California-Riverside
 809,UCF
+809,Central Florida
 810,UCLA
 811,ULL
+811,Louisiana-Lafayette
 812,ULM
+812,Louisiana-Monroe
 813,UMBC
+813,Maryland-Baltimore County
 814,UNC Asheville
 815,UNC Greensboro
 816,UNC Wilmington
+814,North Carolina-Asheville
+815,North Carolina-Greensboro
+816,North Carolina-Wilmington
 817,UNLV
+817,Nevada-Las Vegas
 818,USC
+818,Southern California
 819,UT Arlington
+819,Texas-Arlington
 820,UT San Antonio
+820,Texas-San Antonio
 821,Utah
 822,Utah St
+822,Utah State
 823,Utah Valley
 824,UTEP
+824,Texas-El Paso
 825,VA Commonwealth
+825,Virginia Commonwealth
 826,Valparaiso
 827,Vanderbilt
 828,Vermont
@@ -340,10 +487,14 @@ id,name
 839,Wake Forest
 840,Washington
 841,Washington St
+841,Washington State
 842,Weber St
+842,Weber State
 843,West Virginia
 844,WI Green Bay
+844,Green Bay
 845,WI Milwaukee
+845,Milwaukee
 846,Wichita St
 847,William & Mary
 848,Winthrop
@@ -358,3 +509,7 @@ id,name
 855,Youngstown State
 851,Wright State
 846,Wichita State
+833,Western Carolina
+834,Western Illinois
+835,Western Kentucky
+836,Western Michigan
