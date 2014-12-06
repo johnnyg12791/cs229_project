@@ -50,6 +50,8 @@ def BuildBaselineWinPercentageDict(seeds, results):
             elif(winning_team_seed > losing_team_seed + seed_difference):
                 total_different_seeded_games += 1.0
         accuracy[season+1996] = num_higher_seed_wins/total_different_seeded_games
+        #print str(season+1996) 
+        print str(num_higher_seed_wins/total_different_seeded_games)
         #raw_input("")
     print accuracy
 
