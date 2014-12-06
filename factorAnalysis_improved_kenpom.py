@@ -22,6 +22,8 @@ global model_flag
 def main():
     global model_flag
     model_flag = sys.argv[1]
+    global year_flag
+    year_flag = int(sys.argv[2])
 
     BuildTeamNameToIdMap('data/kaggle/teams.csv')
     FactorAnalysis()
@@ -29,8 +31,8 @@ def main():
 
 #Add a flag for how many to write? which ones
 def WriteToOutputFile(index):
-    f_train = open("features/" + model_flag + "_features_train_" + str(index) + ".out" ,'w')
-    f_test = open("features/" + model_flag + "_features_test_" + str(index) + ".out", 'w')
+    f_train = open("features/" + model_flag + "_features_kp_train_" + str(index) + ".out" ,'w')
+    f_test = open("features/" + model_flag + "_features_kp_test_" + str(index) + ".out", 'w')
 
     train_sorted_features = sorted(factors_to_results.keys(), key=lambda k: factors_to_results[k][0], reverse=True)
     test_sorted_features = sorted(factors_to_results.keys(), key=lambda k: factors_to_results[k][1], reverse=True)
@@ -59,32 +61,36 @@ def FactorAnalysis():
     global factors_to_results
     factors_to_results = {}
 
-    regular_season_games = BuildGamesMatrix('data/kaggle/regular_season_results.csv', 75290, 80543)
-    tournament_games = BuildGamesMatrix('data/kaggle/tourney_results.csv', 1024, 1090)
+    #regular_season_games = BuildGamesMatrix('data/kaggle/regular_season_results.csv', 75290, 80543)
+    #tournament_games = BuildGamesMatrix('data/kaggle/tourney_results.csv', 1024, 1090)
+    regular_season_games = BuildGamesMatrixWithYear('data/kaggle/regular_season_results.csv')
+    tournament_games = BuildGamesMatrixWithYear('data/kaggle/tourney_results.csv')
 
-    factors = [5, 6, 18, 21, 24, 32, 33, 34, 35, 36, 37, 38]
-    i = 8
+
+    factors = range(1,13)#[1,5,9,13]
+    i = 11
 
     iteration_num = 0
 
-    while (i <= 12): 
-        if(i not in [5,6,7]): #Skip these for speed (makes it take half as long)
-            for combo in itertools.combinations(factors, i):
-                combo = list(combo)
-                combo.insert(0,1)
-                
-                MakeResultsDictionary(regular_season_games, tournament_games, combo, i)
-                #print combo
-                iteration_num += 1
-                if(iteration_num % 100 == 0):
-                    print "iteration: " + str(iteration_num)
-            WriteToOutputFile(i)
+    while (i <= len(factors)): 
+        for combo in itertools.combinations(factors, i):
+            combo = list(combo)
+            combo.insert(0,0)
+            
+            MakeResultsDictionary(regular_season_games, tournament_games, combo, i)
+            #print combo
+            iteration_num += 1
+            if(iteration_num % 100 == 0):
+                print "iteration: " + str(iteration_num)
+        WriteToOutputFile(i)
         i += 1
 
     #PrintTop5Results()
 
 def MakeResultsDictionary(regular_season_games, tournament_games, factorCombo, numFac):
-    basic_stats_matrix = ReadBasicStatsToMatrix('data/sports-reference/basic_stats.csv', factorCombo) #
+    #basic_stats_matrix = ReadBasicStatsToMatrix('data/kenpom/summary12_pt.csv', factorCombo) #
+    basic_stats_matrix = ReadBasicStatsToMatrix('data/kenpom/summary' + str(year_flag)[2:] + "_pt.csv", factorCombo)
+    print 'data/kenpom/summary' + str(year_flag)[2:] + "_pt.csv"
 
     training_data = buildTrainingDataMatrix(basic_stats_matrix, regular_season_games, numFac)
     test_data = buildTrainingDataMatrix(basic_stats_matrix, tournament_games, numFac)
@@ -113,7 +119,7 @@ def MakeResultsDictionary(regular_season_games, tournament_games, factorCombo, n
 
     #Add to dictionary and print to keep track of where we are
     #remove '1' from the list of factors, its redundant as specifying the team ID
-    factorCombo.remove(1)
+    factorCombo.remove(0)
     factors_to_results[tuple(factorCombo)] = [train_accuracy, test_accuracy]
     print factors_to_results[tuple(factorCombo)]
 
@@ -184,6 +190,7 @@ def buildTrainingDataMatrix(stats_matrix, games_matrix, numFac):
                     training_data_matrix[game_index][j+numFac] = stats_matrix[stats_index][j+1]
                     j += 1
 
+
         training_data_matrix[game_index][2*numFac] = win_loss #
     
     #Remove rows that didn't correspond to a team (naming issues between datasets)
@@ -226,6 +233,34 @@ def BuildGamesMatrix(filename, start_index, end_index):
     return games_matrix
 
 
+#Can use the year flag
+def BuildGamesMatrixWithYear(filename):
+    content = open(filename).read().splitlines()
+    start_index, end_index = GetStartEndIndexForYear(content)
+    #print content[start_index:end_index] #You can see, this gets the data we want
+    return BuildGamesMatrix(filename, start_index, end_index)
+
+
+#Searches through the content file, finds start and end index of that season
+#Tested by John, this gets the correct indicies
+def GetStartEndIndexForYear(content):
+    season_letter = chr(ord('A') + year_flag - 1996)
+    next_season_letter = chr(ord('A') + year_flag - 1996 + 1) #next season
+    start_index = 0
+    end_index = 0
+    updated_start_index = 0
+    updated_end_index = 0
+    for line_index, line in enumerate(content):
+        if(line[0] == season_letter and not updated_start_index):
+            start_index = line_index
+            updated_start_index = 1
+        if(line[0] == next_season_letter and not updated_end_index):
+            end_index = line_index
+            updated_end_index = 1
+
+    return (start_index, end_index)
+
+
 
 '''
 Takes the given file (kaggle teams), and puts it into a map from name to id
@@ -254,7 +289,7 @@ def ReadBasicStatsToMatrix(filename, columns):
         row_as_list = row.split(",")
         #print row_as_list
         for col_index, col in enumerate(columns):
-            if(col == 1):
+            if(col == 0):
                 team_name = row_as_list[col]
 
                 if(team_name in team_name_to_id):
