@@ -20,14 +20,14 @@ def main():
     BuildTeamNameToIdMap('data/kaggle/teams.csv')
     #1 = id, 5 = W/L %, 6 = SRS, 18 = FG%, 21 = 3PFG%, 24 = FT%, 32 = Avg Margin
     #33 = TRB/G, 34 = AST/G, 35 = TOV/G, 36 = FLS/G, 37 = STl/G, 38 = Blk/G
-    ###basic_stats_matrix = ReadBasicStatsToMatrix('data/sports-reference/basic_stats.csv', [1, 5, 6, 18, 21, 24, 32, 33, 34, 35, 36, 37, 38]) #
-    ###regular_season_games = BuildGamesMatrix('data/kaggle/regular_season_results.csv', 75290, 80543)
+    basic_stats_matrix = ReadBasicStatsToMatrix('data/sports-reference/2014_basic_stats.csv', [1, 5, 6, 18, 21, 24, 32, 33, 34, 35, 36, 37, 38]) #
+    regular_season_games = BuildGamesMatrix('data/kaggle/regular_season_results.csv', 85863, 91225)
     #print regular_season_games
     #print games_matrix
 
     #So now I have the 3 different data sources into numpy matricies
     #combine the games matrix and stats matrix
-    """training_data = buildTrainingDataMatrix(basic_stats_matrix, regular_season_games, 12)
+    training_data = buildTrainingDataMatrix(basic_stats_matrix, regular_season_games, 12)
     print training_data
     (X,y) = (training_data[:,range(24)], training_data[:,24]) #
     #print X
@@ -37,7 +37,7 @@ def main():
     model = model.fit(X, y)
 
     model2 = svm.SVC()
-    model2 = model2.fit(X,y)"""
+    model2 = model2.fit(X,y)
 
     #print model.predict_proba([1.75, .12])
     #print model2.predict([1.75, .12]) #look, we think team 1 will lose
@@ -58,7 +58,7 @@ def main():
     predictions2 = MakePredictionsSVM(model2, test_data[:,range(24)])
     accuracy2 = GetAccuracy(predictions2, test_data, 12)
     print "SVM Accuracy: ", accuracy2"""
-    FactorAnalysis()
+    #FactorAnalysis()
 
 
 def FactorAnalysis():
