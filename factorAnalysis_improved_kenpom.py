@@ -90,7 +90,6 @@ def FactorAnalysis():
 def MakeResultsDictionary(regular_season_games, tournament_games, factorCombo, numFac):
     #basic_stats_matrix = ReadBasicStatsToMatrix('data/kenpom/summary12_pt.csv', factorCombo) #
     basic_stats_matrix = ReadBasicStatsToMatrix('data/kenpom/summary' + str(year_flag)[2:] + "_pt.csv", factorCombo)
-    print 'data/kenpom/summary' + str(year_flag)[2:] + "_pt.csv"
 
     training_data = buildTrainingDataMatrix(basic_stats_matrix, regular_season_games, numFac)
     test_data = buildTrainingDataMatrix(basic_stats_matrix, tournament_games, numFac)

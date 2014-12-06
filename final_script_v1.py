@@ -26,8 +26,22 @@ def main():
     year_flag = int(sys.argv[2])
 
     BuildTeamNameToIdMap('data/kaggle/teams.csv')
-    FactorAnalysis()
+    #FactorAnalysis()
+    GetResults()
     #WriteToOutputFile()
+
+def GetResults():
+    regular_season_games = BuildGamesMatrixWithYear('data/kaggle/regular_season_results.csv')
+    tournament_games = BuildGamesMatrixWithYear('data/kaggle/tourney_results.csv')
+
+    factors = [1, 5, 6, 14, 15, 18, 21, 24]
+    #There is a strange phenomena, when the CSV is copied from sports-ref/cbb
+    #It inserts an empty column (2 commas with nothing between them) after col 15
+    #So we need to increase those factors by 1. This occurs in basic stats (except 2012)
+    factors = [1, 5, 6, 14, 15, 19, 22, 25]
+    test_acc, train_acc = GetTestAndTrainAccuracy(regular_season_games, tournament_games, factors)
+    print "Test Accuracy: ", test_acc
+    print "Train Accuracy: ", train_acc
 
 #Add a flag for how many to write? which ones
 def WriteToOutputFile(index):
@@ -56,38 +70,14 @@ def WriteToOutputFile(index):
     f_test.close()
 
 
-#No return type, this just updates the global dict factors_to_results
-def FactorAnalysis():
-    global factors_to_results
-    factors_to_results = {}
+'''
+Given the a matrix regular season and tournament games, as well as a list of factors
+It builds the LR or SVM model, and predicts the tournament (test) and regular season(train) games
+'''
+def GetTestAndTrainAccuracy(regular_season_games, tournament_games, factors):
+    numFac = len(factors)-1
 
-    #regular_season_games = BuildGamesMatrix('data/kaggle/regular_season_results.csv', 75290, 80543)
-    #tournament_games = BuildGamesMatrix('data/kaggle/tourney_results.csv', 1024, 1090)
-    regular_season_games = BuildGamesMatrixWithYear('data/kaggle/regular_season_results.csv')
-    tournament_games = BuildGamesMatrixWithYear('data/kaggle/tourney_results.csv')
-
-    factors = [5, 6, 14, 15, 18, 21, 24]
-    i = 1
-
-    iteration_num = 0
-
-    while (i <= len(factors)): 
-        #if(i not in [5,6,7]): #Skip these for speed (makes it take half as long)
-        for combo in itertools.combinations(factors, i):
-            combo = list(combo)
-            combo.insert(0,1)
-            
-            MakeResultsDictionary(regular_season_games, tournament_games, combo, i)
-            #print combo
-            iteration_num += 1
-            if(iteration_num % 100 == 0):
-                print "iteration: " + str(iteration_num)
-        WriteToOutputFile(i)
-        i += 1
-
-
-def MakeResultsDictionary(regular_season_games, tournament_games, factorCombo, numFac):
-    basic_stats_matrix = ReadBasicStatsToMatrix("data/sports-reference/" + str(year_flag) +"_basic_stats.csv", factorCombo) #
+    basic_stats_matrix = ReadBasicStatsToMatrix("data/sports-reference/" + str(year_flag) +"_basic_stats.csv", factors) #
     training_data = buildTrainingDataMatrix(basic_stats_matrix, regular_season_games, numFac)
     test_data = buildTrainingDataMatrix(basic_stats_matrix, tournament_games, numFac)
     (X,y) = (training_data[:,range(2*numFac)], training_data[:,2*numFac]) 
@@ -112,11 +102,7 @@ def MakeResultsDictionary(regular_season_games, tournament_games, factorCombo, n
         train_prediction = MakePredictionsSVM(model, training_data[:,range(2*numFac)])
         train_accuracy = GetAccuracy(train_prediction, training_data, numFac)
 
-    #Add to dictionary and print to keep track of where we are
-    #remove '1' from the list of factors, its redundant as specifying the team ID
-    factorCombo.remove(1)
-    factors_to_results[tuple(factorCombo)] = [train_accuracy, test_accuracy]
-    print factors_to_results[tuple(factorCombo)]
+    return (test_accuracy, train_accuracy)
 
 
 #Given a set of predictions (binary classification) and data, computes accuracy
@@ -218,7 +204,6 @@ def BuildGamesMatrix(filename, start_index, end_index):
         games_matrix[row_index*2+1][3] = ord(line[0]) - ord('A') #converts the 'season' letter to a number
         games_matrix[row_index*2+1][4] = line[1]
 
-
     return games_matrix
 
 
@@ -272,21 +257,22 @@ matrix looks like:
 [team_id, stat1, stat2....]
 '''
 def ReadBasicStatsToMatrix(filename, columns):
-    #print team_name_to_id
+    #Opens the stats file, gets lines 2 and beyond
     content = open(filename).read().splitlines()[2:]
     matrix = np.zeros(shape = (len(content), len(columns))) #(rows, cols)
     for row_index, row in enumerate(content):
         row_as_list = row.split(",")
-        #print row_as_list
         for col_index, col in enumerate(columns):
-            if(col == 1):
+            #This is for the id only
+            if(col == 1): 
                 team_name = row_as_list[col]
-
                 if(team_name in team_name_to_id):
                     matrix[row_index][col_index] = team_name_to_id[team_name]
                 else:
+                    #print "Uh oh we are missing a team"
                     matrix[row_index][col_index] = -1 #this is what we put if the name doesn't match for now
-            else:
+            
+            else: #These are the rest of the statistics
                 matrix[row_index][col_index] = float(row_as_list[col])
 
     #might want to remove all the teams with a -1 index, but leave that for later if necessary...?
